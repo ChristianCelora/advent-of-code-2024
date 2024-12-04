@@ -9,13 +9,13 @@ I created a custom Docker container.
 To build it run:
 
 ```sh
-docker build -t go-advent-code-2023 .
+docker build -t go-advent-code-2024 .
 ```
 
 To run it use:
 
 ```sh
-docker run --rm -v "$(pwd)"/src:/go/src -it go-advent-code-2023
+docker run --rm -v "$(pwd)"/src:/go/src -it go-advent-code-2024
 ```
 
 ## Run file 
