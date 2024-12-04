@@ -9,7 +9,7 @@ I created a custom Docker container.
 To build it run:
 
 ```sh
-docker build -t go-advent-code-2024 .
+docker build -t go-advent-code-2024 --platform=linux/arm64/v8 .
 ```
 
 To run it use:

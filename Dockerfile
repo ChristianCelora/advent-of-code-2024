@@ -1,6 +1,6 @@
 FROM ubuntu:jammy
 
-ARG VERSION="1.23.1" # go version
+ARG VERSION="1.23.4" # go version
 ARG ARCH="arm64" # go archicture
 
 RUN apt-get update -y && \
