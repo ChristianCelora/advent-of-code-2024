@@ -32,7 +32,11 @@ func parseMultiplications(instructions string) int {
 	return total
 }
 
-func parseOperations(instructions string) int {
+type State struct {
+	skip_mul bool
+}
+
+func parseOperations(instructions string, state *State) int {
 	var total int
 	reg_mul := regexp.MustCompile(`mul\((\d*),(\d*)\)`)
 	reg_do := regexp.MustCompile(`(do\(\))`)
@@ -47,7 +51,6 @@ func parseOperations(instructions string) int {
 	// var prev_val int
 	var idx_mul, idx_do, idx_dont int
 	var operation int // 1 = mul, 2 = do, 3 = dont
-	skip_mul := false
 	for idx_mul < len(matches_all_mul) || idx_do < len(matches_all_do) || idx_dont < len(matches_all_dont) {
 
 		// choose next operation
@@ -69,15 +72,15 @@ func parseOperations(instructions string) int {
 		// exec operation
 		if operation == 2 {
 			fmt.Println("do op", matches_all_do[idx_do][0])
-			skip_mul = false
+			state.skip_mul = false
 			idx_do++
 		} else if operation == 3 {
 			fmt.Println("dont op", matches_all_dont[idx_dont][0])
-			skip_mul = true
+			state.skip_mul = true
 			idx_dont++
 		} else if operation == 1 {
 			fmt.Println("mul op", matches_all_mul[idx_mul][0])
-			if !skip_mul {
+			if !state.skip_mul {
 				matches := matches_all_mul[idx_mul]
 				if len(matches) >= 6 && matches[2] < matches[3] && matches[4] < matches[5] {
 					val1 := instructions[matches[2]:matches[3]]
@@ -108,9 +111,10 @@ func parseOperations(instructions string) int {
 
 func main() {
 	var total int
-	lines := reader.ReadLines("./day03/data/input2_1.txt")
+	lines := reader.ReadLines("./day03/data/input1_2.txt")
+	state := State{skip_mul: false}
 	for _, line := range lines {
-		total += parseOperations(line)
+		total += parseOperations(line, &state)
 	}
 
 	fmt.Println("total is", total)
