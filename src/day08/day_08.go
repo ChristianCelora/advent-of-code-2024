@@ -122,6 +122,8 @@ func main() {
 							if antinode.x >= 0 && antinode.x < len(matrix_antinodes) &&
 								antinode.y >= 0 && antinode.y < len(matrix_antinodes[0]) {
 								matrix_antinodes[antinode.x][antinode.y] = antinode
+
+								// part 2. we need to recalculate resonant harmonics here
 							}
 						}
 					}
