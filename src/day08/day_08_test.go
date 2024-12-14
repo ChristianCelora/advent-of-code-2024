@@ -39,7 +39,7 @@ func TestGetAntinodes(t *testing.T) {
 		a1 := Antenna{'#', test.x1, test.y1}
 		a2 := Antenna{'#', test.x2, test.y2}
 
-		antinodes := GetAntinodes(a1, a2)
+		antinodes := GetAntinodes(a1, a2, "")
 
 		if antinodes[0].x != test.exp_x1 || antinodes[0].y != test.exp_y1 {
 			t.Fatalf("expected values (%d, %d), actual (%d, %d)", test.exp_x1, test.exp_y1, antinodes[0].x, antinodes[0].y)
