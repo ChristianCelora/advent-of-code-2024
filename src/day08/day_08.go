@@ -69,6 +69,7 @@ func GetAntinodes(a1 Antenna, a2 Antenna, origin string) []Antinode {
 	return antinodes
 }
 
+// the origin is a unique id of the 2 antennas that creates the antinode signal
 func getOriginUuid(a1 Antenna, a2 Antenna) string {
 	return string(a1.signal) + string(a1.x) + string(a1.y) + string(a2.signal) + string(a2.x) + string(a2.y)
 }
@@ -100,16 +101,24 @@ func main() {
 
 				if len(antennas[cell]) > 0 {
 					for _, antenna := range antennas[cell] {
-						// part 2. antennas are antinodes.
-						// Should not be necessary
-						// antinode_antenna := Antinode(antenna)
-						// matrix_antinodes[antenna.x][antenna.y] = antinode_antenna
+
+						// part 2. Antennas are antinodes.
+						antenna_origin := getOriginUuid(antenna, matrix[i][j])
+						antinode_antenna := Antinode{
+							origin: antenna_origin,
+							signal: antenna.signal,
+							x:      antenna.x,
+							y:      antenna.y,
+						}
+						// Save antenna starting positions as antinode
+						matrix_antinodes[antenna.x][antenna.y] = antinode_antenna
+						matrix_antinodes[i][j] = antinode_antenna
 
 						antinode_stack := make([]AntennaPair, 0)
 						starting_pair := AntennaPair{
 							a1:     antenna,
 							a2:     matrix[i][j],
-							origin: getOriginUuid(antenna, matrix[i][j]),
+							origin: antenna_origin,
 						}
 						antinode_stack = append(antinode_stack, starting_pair)
 
