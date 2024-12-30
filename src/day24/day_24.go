@@ -52,8 +52,24 @@ func executeOperations(operations_queue []Operation, values map[string]int) {
 	}
 }
 
+func getVariableBytes(values_map map[string]int, variable byte) string {
+	values_map_keys := make([]string, 0)
+	for k, _ := range values_map {
+		if k[0] == variable {
+			values_map_keys = append(values_map_keys, k)
+		}
+	}
+
+	sort.Strings(values_map_keys)
+	var final_result string
+	for _, key := range values_map_keys {
+		final_result = strconv.Itoa(values_map[key]) + final_result
+	}
+	return final_result
+}
+
 func main() {
-	lines := reader.ReadLines("./day24/data/input_final.txt")
+	lines := reader.ReadLines("./day24/data/input1_1.txt")
 
 	values_map := make(map[string]int)
 	operations := make([]Operation, 0)
@@ -92,20 +108,40 @@ func main() {
 
 	executeOperations(operations, values_map)
 
-	values_map_keys := make([]string, 0)
-	for k, _ := range values_map {
-		if k[0] == 'z' {
-			values_map_keys = append(values_map_keys, k)
-		}
-	}
-
-	sort.Strings(values_map_keys)
-	var final_result string
-	for _, key := range values_map_keys {
-		fmt.Println(key, values_map[key])
-		final_result = strconv.Itoa(values_map[key]) + final_result
-	}
+	final_result := getVariableBytes(values_map, 'z')
 
 	final_res, _ := strconv.ParseInt(final_result, 2, 64)
 	fmt.Println("final result is", final_res)
+
+	// part 2
+	x, _ := strconv.ParseInt(getVariableBytes(values_map, 'x'), 2, 64)
+	y, _ := strconv.ParseInt(getVariableBytes(values_map, 'y'), 2, 64)
+	z := x + y
+	expected_res := fmt.Sprintf("%b", z)
+
+	fmt.Println(x, y, z, expected_res, final_result)
+
+	// mutations: 4 swaps not repeated
+
+	// stupid solution: O(nˆ4)
+	for i := 0; i < len(operations); i++ {
+		for j := 0; j < len(operations); j++ {
+			if i != j {
+				for k := 0; k < len(operations); k++ {
+					if k != j && k != i {
+						for m := 0; m < len(operations); m++ {
+							if m != j && m != i && m != k {
+
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Analize output. which bits are wrong? Start swapping from those
+	// Create a subset of operations
+	// The subset should be smaller and we can brute force from there all combinations
+
 }
